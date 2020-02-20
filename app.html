@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="lib/pixi.min.js"></script>
+    <script src="entities/player.js"></script>
+    <script src="entities/wall.js"></script>
+    <script defer src="init_playground.js"></script>
+    <script defer src="utils.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            initPlayground().then(() => {
+                var scriptTag = document.createElement('script');
+                scriptTag.src = 'app.js';
+                document.head.appendChild(scriptTag);
+            });
+        });
+
+    </script>
+    <title> Playground </title>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+</body>
+</html>
