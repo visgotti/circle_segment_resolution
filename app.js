@@ -29,6 +29,8 @@ walls.push(createWall({ x: 900, y: 755}, { x: 650, y: 901}))
 update((delta) => {
     player.update(delta);
     const collisions = getCollisions(delta);
+    // recolors player depending on collision state.
+    player.colliding = !!collisions.length;
     if(collisions.length) {
         resolvePositionFromCollisions(player.lastPosition, player.currentPosition, player.velocityX, player.velocityY, player.speed, collisions, delta);
     }

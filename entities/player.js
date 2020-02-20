@@ -2,7 +2,7 @@
 
 class Player {
     constructor(diameter) {
-        this.width = diameter;
+        this.diameter = diameter;
         this.stage = stage;
 
         this.sprite = new PIXI.Graphics();
@@ -14,6 +14,7 @@ class Player {
         this.y = this.sprite.y;
         this.lastX = this.x;
         this.lastY = this.y;
+        this._colliding = false;
 
         this.circle = {
             radius: diameter / 2,
@@ -21,12 +22,6 @@ class Player {
             y: this.y + (diameter / 2),
         }
 
-
-        this.centerSprite = new PIXI.Graphics();
-        this.centerSprite.beginFill(0xffff00, 1);
-        this.centerSprite.drawCircle(diameter / 2, diameter / 2, 2);
-        this.centerSprite.endFill();
-        this.stage.addChild(this.centerSprite)
 
         this.pressingRight = false;
         this.pressingLeft = false;
@@ -50,10 +45,10 @@ class Player {
     setPosition(x, y) {
         this.sprite.x = x;
         this.x = x;
-        this.circle.x = x + this.width / 2;
+        this.circle.x = x + this.diameter / 2;
         this.sprite.y = y;
         this.y = y;
-        this.circle.y = y + this.width / 2;
+        this.circle.y = y + this.diameter / 2;
     }
 
     applyDeltas(deltaX, deltaY) {
@@ -61,11 +56,28 @@ class Player {
         this.sprite.y += deltaY;
         this.circle.x += deltaX;
         this.circle.y += deltaY;
-        this.centerSprite.x = this.circle.x;
-        this.centerSprite.y = this.circle.y;
 
         this.x = this.sprite.x;
         this.y = this.sprite.y;
+    }
+
+    set colliding(v) {
+        if(v !== this._colliding) {
+            this._colliding = v;
+            this.recolor();
+        }
+    }
+
+    recolor() {
+        const color = this._colliding ? 0xff0000 : 0x00ff00;
+        this.sprite.clear();
+        this.sprite.beginFill(color, 1);
+        this.sprite.drawCircle(this.diameter / 2, this.diameter / 2, this.diameter / 2);
+        this.sprite.endFill();
+    }
+
+    isColliding() {
+
     }
 
     update(delta) {
